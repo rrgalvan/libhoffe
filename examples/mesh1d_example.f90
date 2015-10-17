@@ -11,13 +11,13 @@ program mesh1d_example
   nc = ncells(Th)
   print *, "Number of cells in Th:", nc
   do i=1, nc
-     print *, "Cell", i, ": vertices...", Th%vertices(i,:)
+     print *, "Cell", i, ": vertices...", Th%vertices(:,i)
   end do
 
   nv = nvertices(Th)
   print *, "Number of vertices in Th:", nv
   do i=1, nv
-     print *, "Vertex", i, ": coordinates...", Th%coordinates(i,:)
+     print *, "Vertex", i, ": coordinates...", Th%coordinates(:,i)
   end do
 
 end program mesh1d_example
