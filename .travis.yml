@@ -4,7 +4,6 @@ python:
 before_install:
   - sudo apt-get install gfortran liblapack-dev
 before_script:
-  - cmake .
   - make
 script:
   - make test
