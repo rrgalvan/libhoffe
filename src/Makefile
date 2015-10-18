@@ -9,7 +9,8 @@ OPTIONS_IFORT_PRODUCTION=-warn all -fast
 OPTIONS=$(OPTIONS_GFORTRAN_DEVEL)
 COMPILE=$(FC) $(OPTIONS) -c
 
-SOURCES:=nrtypes.f90 mesh1d.f90 mesh2d.f90 mesh.f90
+SOURCES:=nrtypes.f90 mesh1d.f90 mesh2d.f90 mesh.f90 \
+	finite_element_1d.f90 finite_element.f90
 
 OBJECTS:=$(SOURCES:.f90=.o)
 

@@ -7,11 +7,13 @@ program fruit_driver
 
   ! Load modules to be tested
   use mesh_test
+  use finite_element_test
 
   ! Run tests
   call init_fruit
 
   call test_mesh_1d_2d
+  call test_finite_element_1d_2d
 
   ! Finalize
   call fruit_summary
