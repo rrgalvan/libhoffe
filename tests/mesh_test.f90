@@ -61,8 +61,8 @@ contains
 
     ! Test access to vertices of each cell
     do i=1, 10
-       associate ( v => get_vertices(Th,i) )
-         call assert_equals(v, [i, i+1], n=2)
+       associate ( v => get_vertices(Th,i),  w => [i, i+1] )
+         call assert_equals(maxval(v-w), 0)
        end associate
     end do
 
@@ -71,9 +71,9 @@ contains
     call assert_equals(get_coordinates(Th,1), expected_coordinates, n=1, delta=0.1_dp)
 
     ! Test access to all coordinates
-    associate( x => Th%coordinates(1,:) )
-      call assert_equals(x, [(0.0_dp + i*1.0_dp/10, i=0,10)], &
-           n=11, delta=0.1e-14_dp)
+    associate( x => Th%coordinates(1,:), &
+         y => [(0.0_dp + i*1.0_dp/10, i=0,10)] )
+      call assert_equals(x, y, n=11, delta=0.1e-14_dp)
     end associate
   end subroutine test_mesh1d_init
 
@@ -96,13 +96,14 @@ contains
 
     type(triangle_mesh2d) :: Th ! Build new mesh
     call init(Th, file_name)
+
     call assert_equals(nvertices(Th), 9)
     call assert_equals(ncells(Th), 8)
     associate(vertices => reshape(Th%vertices, [24]))
-      call assert_equals(vertices, expected_vertices, n=24)
+      call assert_equals( maxval(abs(vertices-expected_vertices)), 0)
     end associate
-    associate(coords => reshape(Th%coordinates, [16]))
-      call assert_equals(coords, expected_coordinates, n=16, delta=0.1e-14_dp)
+    associate(coords => reshape(Th%coordinates, [18]))
+      call assert_true( maxval(abs(coords-expected_coordinates)) .lt. 1.0e-16_dp )
     end associate
 
   end subroutine test_mesh2d_init_from_file

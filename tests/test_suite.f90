@@ -16,4 +16,10 @@ program fruit_driver
   ! Finalize
   call fruit_summary
   call fruit_finalize
+  if (fruit_if_case_failed()) then
+     stop 1
+  else
+     stop 0
+  endif
+
 end program fruit_driver

@@ -1,20 +1,15 @@
-language: python
-python:
-  - 2.7
+language: c
 addons:
   apt:
     packages:
     - gfortran
-before_script:
-  - make
 script:
-  - make test
-
-notifications:
-  email: true
-
-# Branches to be built
+  make test
 branches:
   only:
     - master
     - 2d
+notifications:
+  email:
+    on_success: change # default: change (send a notification when the build status changes)
+    on_failure: never # default: always

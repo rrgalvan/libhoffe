@@ -1,4 +1,4 @@
-1FC=gfortran
+FC=gfortran
 
 # Options for gfortran and ifortran compilers (see http://www.fortran90.org/src/faq.html)
 OPTIONS_GFORTRAN_DEVEL=-Wall -Wextra -Wimplicit-interface -Werror -fPIC -fmax-errors=1 -fbacktrace -fbounds-check -fcheck-array-temporaries
