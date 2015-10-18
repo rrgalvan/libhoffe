@@ -8,5 +8,12 @@ before_script:
   - make
 script:
   - make test
+
 notifications:
-  email: false
+  email: true
+
+# Branches to be built
+branches:
+  only:
+    - master
+    - 2d
