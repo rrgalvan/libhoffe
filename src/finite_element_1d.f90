@@ -13,12 +13,15 @@ module finite_element_1d_module
   type affine_map_0_1
      real(dp) :: a !< multiplicative coefficient
      real(dp) :: b !< translation coefficient
+     real(dp) :: det_jacobian !< determinant of the jacobian, |F'(t)|=|a|
   end type affine_map_0_1
 
   !> Data type for 1-d finite elements
   type finite_element_1d
      !>@brief TODO
-     type(affine_map_0_1) :: affine_map
+     type(mesh1d) :: mesh !< TODO
+     integer(long) :: idx_cell !< TODO
+     type(affine_map_0_1) :: affine_map !< TODO
 
   end type finite_element_1d
 
@@ -30,6 +33,8 @@ contains
     type(mesh1d), intent(in) :: mesh !< 1d-mesh containing the cell which will be linked to the element
     integer(long), intent(in) :: idx_cell !< index of the linked cell
 
+    fe%mesh = mesh
+    fe%idx_cell = idx_cell
     call affine_map_0_1_init(fe%affine_map, mesh, idx_cell)
   end subroutine finite_element_1d_init
 
@@ -46,6 +51,7 @@ contains
       associate( x1 => mesh%coordinates(1,v1), x2 => mesh%coordinates(1,v2) )
         map%a = x2-x1
         map%b = x1
+        map%det_jacobian = map%a
       end associate
     end associate
   end subroutine affine_map_0_1_init
