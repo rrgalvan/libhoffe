@@ -1,6 +1,6 @@
 !> Fortran module containing the definition of all types of mesh are defined
-!! @author J. Rafael Rodríguez Galván
 !! @author Estefanía Alonso Alonso
+!! @author J. Rafael Rodríguez Galván
 
 module mesh
   use nrtypes
@@ -30,7 +30,7 @@ module mesh
 
 contains
 
-  !> Builds a 1D mesh in a given domain (in an interval)
+  !> Builds a 1D mesh in an interval
   subroutine init(Th, x1, x2, ncells)
     type(mesh1d), intent(out) :: Th     !< Mesh to be built
     real(dp), intent(in) :: x1          !< Left extreme of the domain (interval [x1,x2])
@@ -78,8 +78,7 @@ contains
     copy_vertices = Th%vertices(:,i)
   end function copy_vertices
 
-
-    !> Return a copy of the coordinates of the i-th vertex of Th
+  !> Return a copy of the coordinates of the i-th vertex of Th
   function copy_coordinates(Th,i)
     type(mesh1d), intent(in) :: Th !< 1D mesh
     integer(long), intent(in) :: i
