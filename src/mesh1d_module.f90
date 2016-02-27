@@ -61,7 +61,7 @@ contains
   !> Return the number of cells in Th
   integer(long) function mesh1d_ncells(Th)
     type(mesh1d), intent(in) :: Th !< 1D mesh
-    mesh1d_ncells = Th%ncells !size(Th%vertices, 2)
+    mesh1d_ncells = Th%ncells
   end function mesh1d_ncells
 
   !> Return the number of vertices in Th
