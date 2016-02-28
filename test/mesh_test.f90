@@ -19,7 +19,6 @@ contains
   subroutine test_mesh1d_build
     use mesh
     integer(long) :: i, ncells, nvertices
-    ! real(dp) :: expected_coordinates(1)
     type(mesh1d) :: Th
 
     Th = mesh1d( x1=0.0_dp, x2=1.0_dp, ncells=10 )

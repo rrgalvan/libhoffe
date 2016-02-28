@@ -1,8 +1,8 @@
-SUBDIRS = src examples #tests
+SUBDIRS = src test #examples tests
 
 all: $(SUBDIRS)
 
-$(SUBDIRS):
+$(SUBDIRS): src
 	$(MAKE) -C $@
 
 clean: $(SUBDIRS)

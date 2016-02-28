@@ -27,6 +27,8 @@ OBJECTS:=$(SOURCES:.f90=.o)
 
 # Compiling rules
 
+run: test_suite
+	./test_suite
 
 test_suite: $(OBJECTS) $(HOFFELIB)
 	$(LINK) $(OBJECTS) $(HOFFELIB) -o $@
@@ -34,8 +36,6 @@ test_suite: $(OBJECTS) $(HOFFELIB)
 %.o: %.f90
 	$(COMPILE) $<
 
-run: test_suite
-	./test_suite
 
 clean:
 	rm -f test_suite *.o *.mod *~
