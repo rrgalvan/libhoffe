@@ -8,7 +8,7 @@ before_install:
     export FC=gfortran-5
     $FC --version
 script:
-  make test
+  make test -e
 branches:
   only:
     - master
