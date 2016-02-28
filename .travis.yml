@@ -10,8 +10,8 @@ branches:
     - master
 before_install:
   - |
-  export FC=gfortran-5
-  $FC --version
+    export FC=gfortran-5
+    $FC --version
 notifications:
   email:
     on_success: change # default: change (send a notification when the build status changes)
