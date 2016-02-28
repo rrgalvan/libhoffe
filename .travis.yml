@@ -2,7 +2,7 @@ language: c
 addons:
   apt:
     packages:
-    - gfortran
+    - gfortran-4.9
 script:
   make test
 branches:
