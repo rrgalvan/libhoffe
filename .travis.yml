@@ -1,11 +1,12 @@
 language: c
 before_install:
-  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
-  - sudo apt-get update -q
-  - sudo apt-get install gcc-5 -y
-  - sudo apt-get install gfortran-5 -y
-  - export FC=gfortran-5
-  - $FC --version
+  - |
+    sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+    sudo apt-get update -q
+    sudo apt-get install gcc-5 --force-yes
+    sudo apt-get install gfortran-5 --force-yes
+    export FC=gfortran-5
+    $FC --version
 script:
   make test
 branches:
