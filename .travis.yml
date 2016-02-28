@@ -2,12 +2,16 @@ language: c
 addons:
   apt:
     packages:
-    - gfortran-4.9
+    - gfortran-5
 script:
   make test
 branches:
   only:
     - master
+before_install:
+  - |
+  export FC=gfortran-5
+  $FC --version
 notifications:
   email:
     on_success: change # default: change (send a notification when the build status changes)
