@@ -1,54 +1,103 @@
-\documentclass[12pt,article]{article}
+\documentclass[11pt,article]{article}
 % \usepackage[utf8]{inputenc}
+\usepackage{a4wide}
 \usepackage[T1]{fontenc}
 \usepackage{tikz-uml}
+
+\usepackage{helvet} % Use "Helvetica" as LaTeX font
+
 \begin{document}
 
-\newcommand{\TD}{topolog\_dim}
-\newcommand{\VC}{VC}
-\newcommand{\SD}{SD}
+% LaTeX font for UML diagrams
+% \tikzumlset{font=\sffamily}
+\tikzumlset{font=\ttfamily}
 
-\section{Mesh Classes}
+\newcommand{\NV}{NV}
+\newcommand{\SD}{SD}
+\newcommand{\abstractF}[1]{\textit{#1}} % Font for abstract functions
+
+\section{UML Diagrams}
+
+Following the UML modeling language, we represent a class with a box
+which has 3 sections. From top to bottom, these sections display: the
+class name, the the instance variables and the methods of that class.
+
+Abstract functions (whose definition is deferred for derived classes)
+are denoted by \textit{italic font}.
+
+The visibility of class members (variables, methods and constructors)
+is specified by the following notation:
+\begin{verbatim}
+    +    Public
+    -    Private
+\end{verbatim}
+
+\section{Mesh Data Types}
+
 \begin{tikzpicture}
   % Draw the mesh class as a interface with two template parameters
-  \umlclass[y=5,type=interface,template={real, \VC, \SD}]{abstract\_mesh}{}{
-    + ncells() : integer \\
+  \umlclass[y=5,type=interface,template={real, \NV, \SD}]{abstract\_mesh}{}{
     + nvertices() : integer \\
-    + vertices\_of\_cell(int) : int[\VC] \\
-    + coordinates\_of\_vertex(int) : real[\SD]
+    + dim() : integer \\
+    + \abstractF{ncells}() : integer \\
+    + \abstractF{vertices\_of\_cell}(int) : int[\NV] \\
+    + \abstractF{coordinates\_of\_vertex}(int) : real[\SD]
   }
   % Attach a note to mesh class (information about template parameters)
-  \umlnote[x=7,y=6]{abstract\_mesh}{
-    real: floating point type, \\ \VC: nb. of vertices in each cell, \\ \SD: space dimension}
+  \umlnote[x=8,y=5]{abstract\_mesh}{
+    \begin{description}
+    \item[\sf real:] floating point type
+    \item[\sf\NV:] nb. of vertices in each cell
+    \item[\sf\SD:] space dimension
+    \end{description}
+    }
   % Draw the mesh1d class
   \umlclass[x=-3]{mesh1d}{}{
-    + x(int): real \\
+    + x(int) : real \\
     }
   % Define mesh1d as a specialization of mesh
-  \umlreal[stereo={\VC $\rightarrow$ 2, \SD $\rightarrow$ 1}]{mesh1d}{abstract\_mesh}
+  \umlreal[stereo={\NV $\rightarrow$ 2, \SD $\rightarrow$ 1}]{mesh1d}{abstract\_mesh}
 
   % Draw the mesh2d class
   \umlclass[x=3]{triang\_mesh2d}{}{
-    + x(int): real \\
-    + y(int): real
+    + x(int) : real \\
+    + y(int) : real
   }
   % Define mesh2d as a specialization of mesh
-  \umlreal[stereo={\VC $\rightarrow$ 3, \SD $\rightarrow$ 2}]{triang\_mesh2d}{abstract\_mesh}
+  \umlreal[stereo={\NV $\rightarrow$ 3, \SD $\rightarrow$ 2}]{triang\_mesh2d}{abstract\_mesh}
 \end{tikzpicture}
 
-\section{Finite Element Classes}
+\section{Quadrature Formula Data Types}
+
+(...)
+
+\section{Finite Element Data Types}
 
 \begin{tikzpicture}
-  % Draw the mesh class as a interface with two template parameters
+  % Draw the abstract finite element class as a interface
   \umlclass[type=interface]{abstract\_finite\_element}
   {
-    - mesh\_ :: abstract\_mesh
+    - order\_: int \\
+    - mesh\_ : abstract\_mesh \\
+    - quad\_rule\_ : abstract\_quad\_rule \\
   }
   {
-    + mesh() : abstract\_mesh \\
-    + ndofs() : integer \\
+    + get\_order() : abstract\_mesh \\
+    + get\_mesh() : abstract\_mesh \\
+    + get\_quad\_rule() : abstract\_quad\_rule \\
+    + get\_ndofs() : integer \\
+    + get\_phi(int) : float[NQ] \\
+    + get\_dx\_phi(int) : float[NQ] \\
+    + \abstractF{reinit}(icell : int, order: int) \\
     (...)
   }
+  % Attach a note (information about reinit)
+  \umlnote[x=7]{abstract\_finite\_element}{ reinit() is responsible
+    for associating a finite element object to the cell ``icell'' and
+    resetting the corresponding data members.
+
+    NQ is the nb. of quadrature nodes
+    }
 \end{tikzpicture}
 
 \end{document}                  %
