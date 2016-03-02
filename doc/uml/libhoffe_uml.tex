@@ -1,4 +1,4 @@
-\documentclass[12pt,article]{memoir}
+\documentclass[12pt,article]{article}
 % \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{tikz-uml}
@@ -7,22 +7,25 @@
 \newcommand{\TD}{topolog\_dim}
 \newcommand{\VC}{VC}
 \newcommand{\SD}{SD}
+
+\section{Mesh Classes}
 \begin{tikzpicture}
   % Draw the mesh class as a interface with two template parameters
-  \umlclass[y=5,type=interface,template={real, \VC, \SD}]{mesh}{}{
+  \umlclass[y=5,type=interface,template={real, \VC, \SD}]{abstract\_mesh}{}{
     + ncells() : integer \\
     + nvertices() : integer \\
     + vertices\_of\_cell(int) : int[\VC] \\
     + coordinates\_of\_vertex(int) : real[\SD]
   }
   % Attach a note to mesh class (information about template parameters)
-  \umlnote[x=7,y=6]{mesh}{real: floating point type, \\ \VC: nb. of vertices in each cell, \\ \SD: space dimension}
+  \umlnote[x=7,y=6]{abstract\_mesh}{
+    real: floating point type, \\ \VC: nb. of vertices in each cell, \\ \SD: space dimension}
   % Draw the mesh1d class
   \umlclass[x=-3]{mesh1d}{}{
     + x(int): real \\
     }
   % Define mesh1d as a specialization of mesh
-  \umlreal[stereo={\VC $\rightarrow$ 2, \SD $\rightarrow$ 1}]{mesh1d}{mesh}
+  \umlreal[stereo={\VC $\rightarrow$ 2, \SD $\rightarrow$ 1}]{mesh1d}{abstract\_mesh}
 
   % Draw the mesh2d class
   \umlclass[x=3]{triang\_mesh2d}{}{
@@ -30,7 +33,22 @@
     + y(int): real
   }
   % Define mesh2d as a specialization of mesh
-  \umlreal[stereo={\VC $\rightarrow$ 3, \SD $\rightarrow$ 2}]{triang\_mesh2d}{mesh}
+  \umlreal[stereo={\VC $\rightarrow$ 3, \SD $\rightarrow$ 2}]{triang\_mesh2d}{abstract\_mesh}
+\end{tikzpicture}
+
+\section{Finite Element Classes}
+
+\begin{tikzpicture}
+  % Draw the mesh class as a interface with two template parameters
+  \umlclass[type=interface]{abstract\_finite\_element}
+  {
+    - mesh\_ :: abstract\_mesh
+  }
+  {
+    + mesh() : abstract\_mesh \\
+    + ndofs() : integer \\
+    (...)
+  }
 \end{tikzpicture}
 
 \end{document}                  %
