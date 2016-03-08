@@ -14,7 +14,6 @@
 
 \newcommand{\NV}{NV}
 \newcommand{\SD}{SD}
-\newcommand{\abstractF}[1]{\textit{#1}} % Font for abstract functions
 
 \section{UML Diagrams}
 
@@ -36,19 +35,19 @@ is specified by the following notation:
 
 \begin{tikzpicture}
   % Draw the mesh class as a interface with two template parameters
-  \umlclass[y=5,type=interface,template={real, \NV, \SD}]{abstract\_mesh}{}{
+  \umlclass[y=6,type=abstract,template={real, \NV, \SD}]{abstract\_mesh}{}{
     + nvertices() : integer \\
     + dim() : integer \\
-    + \abstractF{ncells}() : integer \\
-    + \abstractF{vertices\_of\_cell}(int) : int[\NV] \\
-    + \abstractF{coordinates\_of\_vertex}(int) : real[\SD]
+    + \umlvirt{ncells}() : integer \\
+    + \umlvirt{vertices\_of\_cell}(int) : int[\NV] \\
+    + \umlvirt{coordinates\_of\_vertex}(int) : real[\SD]
   }
   % Attach a note to mesh class (information about template parameters)
-  \umlnote[x=8,y=5]{abstract\_mesh}{
+  \umlnote[x=9,y=6]{abstract\_mesh}{
     \begin{description}
-    \item[\sf real:] floating point type
-    \item[\sf\NV:] nb. of vertices in each cell
-    \item[\sf\SD:] space dimension
+    \item[\tt real:] floating point type
+    \item[\tt \NV:] nb. of vertices in each cell
+    \item[\tt \SD:] space dimension
     \end{description}
     }
   % Draw the mesh1d class
@@ -58,13 +57,21 @@ is specified by the following notation:
   % Define mesh1d as a specialization of mesh
   \umlreal[stereo={\NV $\rightarrow$ 2, \SD $\rightarrow$ 1}]{mesh1d}{abstract\_mesh}
 
-  % Draw the mesh2d class
+  % Draw the triangle mesh2d class
   \umlclass[x=3]{triang\_mesh2d}{}{
     + x(int) : real \\
     + y(int) : real
   }
-  % Define mesh2d as a specialization of mesh
+  % Define triang mesh2d as a specialization of mesh
   \umlreal[stereo={\NV $\rightarrow$ 3, \SD $\rightarrow$ 2}]{triang\_mesh2d}{abstract\_mesh}
+
+  % Draw the rectangle mesh2d class
+  \umlclass[x=9]{rectang\_mesh2d}{}{
+    + x(int) : real \\
+    + y(int) : real
+  }
+  % Define rectang mesh2d as a specialization of mesh
+  \umlreal[stereo={\NV $\rightarrow$ 4, \SD $\rightarrow$ 2}]{rectang\_mesh2d}{abstract\_mesh}
 \end{tikzpicture}
 
 \section{Quadrature Formula Data Types}
@@ -75,27 +82,27 @@ is specified by the following notation:
 
 \begin{tikzpicture}
   % Draw the abstract finite element class as a interface
-  \umlclass[type=interface]{abstract\_finite\_element}
+  \umlclass[type=abstract]{abstract\_finite\_element}
   {
     - order\_: int \\
     - mesh\_ : abstract\_mesh \\
     - quad\_rule\_ : abstract\_quad\_rule \\
   }
   {
-    + get\_order() : abstract\_mesh \\
+    + get\_order() : int \\
     + get\_mesh() : abstract\_mesh \\
     + get\_quad\_rule() : abstract\_quad\_rule \\
     + get\_ndofs() : integer \\
     + get\_phi(int) : float[NQ] \\
     + get\_dx\_phi(int) : float[NQ] \\
-    + \abstractF{reinit}(icell : int, order: int) \\
+    + \umlvirt{reinit}(icell : int, order: int) \\
     (...)
   }
   % Attach a note (information about reinit)
   \umlnote[x=7]{abstract\_finite\_element}{ reinit() is responsible
     for associating a finite element object to the cell ``icell'' and
     resetting the corresponding data members.
-
+    \par\medskip
     NQ is the nb. of quadrature nodes
     }
 \end{tikzpicture}
